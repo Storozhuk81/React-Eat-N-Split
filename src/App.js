@@ -85,7 +85,7 @@ function SplitBillForm({ friend }) {
       <label htmlFor="your-expense">🧍‍♀️ Your expense</label>
       <input id="your-expense" type="text" name="your-expense" value=""></input>
       <label htmlFor="friend-expense">👫 {friend}' expense</label>
-      <input id="friend-expense" type="text" name="friend-expense" value=""></input>
+      <input id="friend-expense" type="text" name="friend-expense" value="" disabled></input>
       <label htmlFor="payer">🤑 Who is paying the bill</label>
       <select id="payer" value="You">
         <option>You</option>
