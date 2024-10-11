@@ -25,6 +25,7 @@ export default function App() {
   return (
     <div className="app">
       <ListOfFriends friends={initialFriends} />
+      <SplitBillForm friend="Antony" />
     </div>
   );
 }
@@ -35,8 +36,8 @@ function ListOfFriends({ friends }) {
       <ul>
         {friends && friends.length !== 0 && friends.map((friend) => <Friend key={friend.id} friend={friend}></Friend>)}
       </ul>
-      <button className="button">Add friend</button>
-      <AddFriend />
+      <Button>Add friend</Button>
+      <AddFriendForm />
     </div>
   );
 }
@@ -58,19 +59,43 @@ function Friend({ friend: { name, image, balance } }) {
       )}
       {balance === 0 && <p>You and {name} are even</p>}
 
-      <button className="button">Select</button>
+      <Button>Select</Button>
     </li>
   );
 }
 
-function AddFriend() {
+function AddFriendForm() {
   return (
     <form className="form-add-friend">
       <label htmlFor="name">👫 Friend name</label>
       <input id="name" type="text" name="name" value=""></input>
       <label htmlFor="name">🌄 Image URL</label>
       <input id="url" type="url" name="url" value="https://i.pravatar.cc/48"></input>
-      <button className="button">Add</button>
+      <Button>Add</Button>
     </form>
   );
+}
+
+function SplitBillForm({ friend }) {
+  return (
+    <form className="form-split-bill">
+      <h2>Split a bill with {friend}</h2>
+      <label htmlFor="bill">💰 Bill value</label>
+      <input id="bill" type="text" name="bill" value=""></input>
+      <label htmlFor="your-expense">🧍‍♀️ Your expense</label>
+      <input id="your-expense" type="text" name="your-expense" value=""></input>
+      <label htmlFor="friend-expense">👫 {friend}' expense</label>
+      <input id="friend-expense" type="text" name="friend-expense" value=""></input>
+      <label htmlFor="payer">🤑 Who is paying the bill</label>
+      <select id="payer" value="You">
+        <option>You</option>
+        <option>{friend}</option>
+      </select>
+      <Button>Split bill</Button>
+    </form>
+  );
+}
+
+function Button({ children }) {
+  return <button className="button">{children}</button>;
 }
