@@ -36,6 +36,7 @@ function ListOfFriends({ friends }) {
         {friends && friends.length !== 0 && friends.map((friend) => <Friend key={friend.id} friend={friend}></Friend>)}
       </ul>
       <button className="button">Add friend</button>
+      <AddFriend />
     </div>
   );
 }
@@ -59,5 +60,17 @@ function Friend({ friend: { name, image, balance } }) {
 
       <button className="button">Select</button>
     </li>
+  );
+}
+
+function AddFriend() {
+  return (
+    <form className="form-add-friend">
+      <label htmlFor="name">👫 Friend name</label>
+      <input id="name" type="text" name="name" value=""></input>
+      <label htmlFor="name">🌄 Image URL</label>
+      <input id="url" type="url" name="url" value="https://i.pravatar.cc/48"></input>
+      <button className="button">Add</button>
+    </form>
   );
 }
