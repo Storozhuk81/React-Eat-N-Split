@@ -1,4 +1,5 @@
 import "./index.css";
+import { useState } from "react";
 
 const initialFriends = [
   {
@@ -31,13 +32,21 @@ export default function App() {
 }
 
 function ListOfFriends({ friends }) {
+  const [visibleAddFriend, setVisibleAddFriend] = useState(false);
+  function handleAddFriend() {
+    setVisibleAddFriend((currVisibleAddFriend) => !currVisibleAddFriend);
+  }
   return (
     <div className="sidebar">
       <ul>
         {friends && friends.length !== 0 && friends.map((friend) => <Friend key={friend.id} friend={friend}></Friend>)}
       </ul>
-      <Button>Add friend</Button>
-      <AddFriendForm />
+      {visibleAddFriend && (
+        <>
+          <AddFriendForm />
+          <Button onClick={handleAddFriend}>{visibleAddFriend ? "Close" : "Add friend"}</Button>
+        </>
+      )}
     </div>
   );
 }
@@ -96,6 +105,10 @@ function SplitBillForm({ friend }) {
   );
 }
 
-function Button({ children }) {
-  return <button className="button">{children}</button>;
+function Button({ children, onClick }) {
+  return (
+    <button className="button" onClick={onClick}>
+      {children}
+    </button>
+  );
 }
