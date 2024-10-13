@@ -44,9 +44,9 @@ function ListOfFriends({ friends }) {
       {visibleAddFriend && (
         <>
           <AddFriendForm />
-          <Button onClick={handleAddFriend}>{visibleAddFriend ? "Close" : "Add friend"}</Button>
         </>
       )}
+      <Button onClick={handleAddFriend}>{visibleAddFriend ? "Close" : "Add friend"}</Button>
     </div>
   );
 }
