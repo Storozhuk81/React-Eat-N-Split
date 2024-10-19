@@ -27,6 +27,17 @@ export default function App() {
   const [friends, setFriends] = useState(initialFriends);
   const [selectedFriend, setSelectedFriend] = useState(null);
 
+  //! Updating friends state by mapping (use this pattern)
+  function handleSplitBill(value) {
+    console.log(value);
+    setFriends((currFriends) =>
+      currFriends.map((friendEl) =>
+        friendEl.id === selectedFriend?.id ? { ...friendEl, balance: (friendEl.balance += value) } : friendEl
+      )
+    );
+    setSelectedFriend(null);
+  }
+
   function handleShowAddFriend() {
     setVisibleAddFriend((currVisibleAddFriend) => !currVisibleAddFriend);
   }
@@ -53,7 +64,7 @@ export default function App() {
         onSelection={handleSelection}
       />
 
-      {selectedFriend && <SplitBillForm selectedFriend={selectedFriend} />}
+      {selectedFriend && <SplitBillForm selectedFriend={selectedFriend} onSplitBill={handleSplitBill} />}
     </div>
   );
 }
@@ -115,7 +126,7 @@ function Friend({ friend, selectedFriend, onSelection }) {
       )}
       {friend.balance > 0 && (
         <p className="green">
-          {friend.name} owe you {friend.balance}€
+          {friend.name} owes you {friend.balance}€
         </p>
       )}
       {friend.balance === 0 && <p>You and {friend.name} are even</p>}
@@ -137,14 +148,20 @@ function AddFriendForm({ name, image, setImage, setName, onHandleSubmit }) {
   );
 }
 
-function SplitBillForm({ selectedFriend }) {
+function SplitBillForm({ selectedFriend, onSplitBill }) {
   const [bill, setBill] = useState("");
   const [yorExpense, setYourExpense] = useState("");
   const friendExpense = bill - yorExpense;
   const [payer, setPayer] = useState("you");
 
+  function handleSubmit(e) {
+    e.preventDefault();
+    if (!bill || !yorExpense) return;
+    onSplitBill(payer === "you" ? friendExpense : -yorExpense, selectedFriend);
+  }
+
   return (
-    <form className="form-split-bill">
+    <form className="form-split-bill" onSubmit={handleSubmit}>
       <h2>Split a bill with {selectedFriend.name}</h2>
       <label htmlFor="bill">💰 Bill value</label>
       <input id="bill" type="text" name="bill" value={bill} onChange={(e) => setBill(Number(e.target.value))}></input>
